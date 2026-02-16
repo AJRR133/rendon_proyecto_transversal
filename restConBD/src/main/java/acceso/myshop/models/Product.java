@@ -66,20 +66,9 @@ public class Product {
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Product(long id, String name, String description, String category, float price, LocalDateTime creationDate) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.category = category;
-		this.price = price;
-		this.creationDate = creationDate;
-	}
-	public Product() {
-		super();
-	}
-    
-    
+	
+   
+
     
     
     

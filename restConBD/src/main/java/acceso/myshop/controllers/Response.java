@@ -51,10 +51,7 @@ public class Response {
 		return NO_MESSAGE;
 	}
 
-	public Response(Error error) {
-		super();
-		this.error = error;
-	}
+	
 	
 	
 	
