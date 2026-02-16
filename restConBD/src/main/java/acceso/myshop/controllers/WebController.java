@@ -2,6 +2,7 @@ package acceso.myshop.controllers;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import acceso.myshop.models.Product;
+import acceso.myshop.models.*;
+import acceso.myshop.services.EntrenadorService;
+import acceso.myshop.services.EquipoService;
+import acceso.myshop.services.JuegoService;
 import acceso.myshop.services.ProductService;
 import exceptions.ProductNotFoundException;
 
@@ -18,6 +23,10 @@ import exceptions.ProductNotFoundException;
 public class WebController {
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private EntrenadorService entreservice;
+	private EquipoService equiservice;
+	private JuegoService juegoservice;
 
 	@RequestMapping("/") 
 	public String index(Model model) {
@@ -52,6 +61,26 @@ public class WebController {
         return "detalle";
     }
     
+    //Entrenadores
+    
+    @RequestMapping("/listaentrenadores")
+    public String listaentrenadores(Model model) {
+		List<Entrenador> Entrenador = entreservice.findAll();
+		model.addAttribute("entrenador", Entrenador);
+		return "entrenadores";
+	}
+    
+    @PostMapping("/entrenador")
+	public ResponseEntity<Entrenador> addEntrenador(@RequestBody Entrenador entrenador) {
+    		Entrenador addedEntrenador = entreservice.createEntrenador(entrenador);
+		return new ResponseEntity<>(addedEntrenador, HttpStatus.CREATED);
+	}
+    @PutMapping("/entrenador/{id}")
+	public ResponseEntity<Entrenador> updateEntrenador(@PathVariable Long id,@RequestBody Entrenador entrenador) {
+		Entrenador addedentre = entreservice.updatenameEntrenador(id,entrenador);
+		return new ResponseEntity<>(addedentre, HttpStatus.ACCEPTED);
+	}
+    
 	
 	@ExceptionHandler(ProductNotFoundException.class)
 	@ResponseBody
@@ -61,6 +90,8 @@ public class WebController {
 	        Response response = Response.errorResonse(Response.NOT_FOUND, pnfe.getMessage());
 	        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	 }
+	
+	
 	
 
 }

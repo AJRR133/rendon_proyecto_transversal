@@ -18,37 +18,40 @@ public class EquipoServiceImpl implements EquipoService {
 	@Override
 	public List<Equipo> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return repoequipo.findAll();
 	}
 
 	@Override
-	public Set<Equipo> findByNombre(String nombre) {
+	public Equipo findByNombre(String nombre) {
 		// TODO Auto-generated method stub
-		return null;
+		return repoequipo.findByNombre(nombre);
 	}
 
 	@Override
 	public Set<Equipo> findByRegion(String region) {
 		// TODO Auto-generated method stub
-		return null;
+		return repoequipo.findByRegion(region);
 	}
 
 	@Override
 	public Equipo createEquipo(Equipo equipo) {
 		// TODO Auto-generated method stub
-		return null;
+		return repoequipo.save(equipo);
 	}
 
 	@Override
-	public Equipo deleteEquipo(Equipo equipo) {
+	public void deleteEquipo(Equipo equipo) {
 		// TODO Auto-generated method stub
-		return null;
+		 repoequipo.delete(equipo);
 	}
 
 	@Override
-	public Equipo updateregionEquipo(long id, Equipo equipo) {
+	public Equipo updateregionEquipo(String nombre, Equipo equipo) {
 		// TODO Auto-generated method stub
-		return null;
+		Equipo equi1 = this.findByNombre(nombre);
+		equi1.setNombre(equipo.getNombre());
+		return repoequipo.save(equipo);
 	}
 
+	
 }

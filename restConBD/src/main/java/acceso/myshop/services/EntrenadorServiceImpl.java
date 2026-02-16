@@ -45,7 +45,7 @@ public class EntrenadorServiceImpl implements EntrenadorService {
 		// TODO Auto-generated method stub
 		Entrenador ent = this.findEntrenadorById(id);
 		ent.setNombre(entrenador.getNombre());
-		return repoentre.save(entrenador);
+		return repoentre.save(ent);
 	}
 
 }
