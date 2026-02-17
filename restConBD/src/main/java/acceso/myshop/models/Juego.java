@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,13 +27,12 @@ public class Juego {
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
-	  @Column
+	  	@Column
 	    private String nombre;
 	    @Column
 	    private String genero;
 	 
-	    @ManyToMany // Unidireccional
-	    @JoinTable(name = "juego_equipo")
+	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	    private List<Equipo> equiposParticipantes = new ArrayList<>();
 
 	

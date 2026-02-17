@@ -1,7 +1,8 @@
 package acceso.myshop.controllers;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import acceso.myshop.services.EntrenadorService;
 import acceso.myshop.services.EquipoService;
 import acceso.myshop.services.JuegoService;
 import acceso.myshop.services.ProductService;
+import exceptions.EntrenadorNotFoundException;
 import exceptions.ProductNotFoundException;
 
 @Controller
@@ -25,7 +27,9 @@ public class WebController {
 	private ProductService productService;
 	@Autowired
 	private EntrenadorService entreservice;
+	@Autowired
 	private EquipoService equiservice;
+	@Autowired
 	private JuegoService juegoservice;
 
 	@RequestMapping("/") 
@@ -81,17 +85,54 @@ public class WebController {
 		return new ResponseEntity<>(addedentre, HttpStatus.ACCEPTED);
 	}
     
+   
+    
+    
 	
-	@ExceptionHandler(ProductNotFoundException.class)
+	@ExceptionHandler(EntrenadorNotFoundException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<Response> handleException(ProductNotFoundException pnfe) 
-	{
+	public ResponseEntity<Response> handleException(EntrenadorNotFoundException pnfe) {
 	        Response response = Response.errorResonse(Response.NOT_FOUND, pnfe.getMessage());
 	        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	 }
 	
+	 //Equipo
+	
+	@PostMapping("/equipo")
+	@ResponseBody 
+	public String addEquipo(@RequestBody Equipo equipo) {
+		Equipo addedEquipo = equiservice.createEquipo(equipo);
+		String a  = ("se ha añadido al equipo" + addedEquipo);
+		return a;
+	}
+	
+	@RequestMapping("/listaequipos")
+    public String listaequipos(Model model) {
+		List<Equipo> equipo = equiservice.findAll();
+		model.addAttribute("equipo", equipo);
+		return "equipos";
+	}
+	
+	//Juego
+	
+	@RequestMapping("/listajuegos")
+    public String listajuegos(Model model) {
+		List<Juego> juego = juegoservice.findAll();
+		model.addAttribute("juego", juego);
+		return "juegos";
+	}
 	
 	
+	
+	@GetMapping("/juego/{nombre}")
+	@ResponseBody
+    public Map<String, Juego> getJuegoByNombre(@PathVariable String nombre, Model model) {
+		Map<String, Juego> respuesta = new HashMap<>();
+        Juego juego = juegoservice.findByNombre(nombre);
+        	respuesta.put("Juego",juego);
+        return respuesta;
+    }
 
+	
 }

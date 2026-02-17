@@ -11,8 +11,8 @@ import acceso.myshop.models.Juego;
 public interface JuegoRepositorio extends JpaRepository<Juego, Long> { 
 	
 	   List<Juego> findAll();
-	   Set<Juego> findByNombre(String nombre);
-	   Set<Juego> findByGenero(String genero);
+	   Juego findByNombre(String nombre);
+	   
 
 
 }
